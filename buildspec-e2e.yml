@@ -1,0 +1,50 @@
+version: 0.2
+
+# Pre-deploy E2E: starts Spring Boot locally, runs Playwright (Java) against it.
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto21
+    commands:
+      - echo "=== Installing Playwright browsers ==="
+      - mvn -B dependency:build-classpath -Dmdep.outputFile=cp.txt -q
+      - java -cp "$(cat cp.txt)" com.microsoft.playwright.CLI install --with-deps chromium
+  pre_build:
+    commands:
+      - echo "=== Building JAR ==="
+      - mvn -B package -DskipTests
+      - echo "=== Starting application in background ==="
+      - nohup java -jar target/*.jar > app.log 2>&1 &
+      - echo $! > app.pid
+      - echo "=== Waiting for app to be ready ==="
+      - |
+        for i in $(seq 1 30); do
+          if curl -sf http://localhost:8080/ > /dev/null 2>&1; then
+            echo "App is ready after $i attempts"
+            break
+          fi
+          if [ $i -eq 30 ]; then
+            echo "App failed to start — log follows:"
+            cat app.log
+            exit 1
+          fi
+          echo "Waiting... ($i/30)"
+          sleep 2
+        done
+  build:
+    commands:
+      - echo "=== Running E2E tests against localhost ==="
+      - WEBSITE_URL=http://localhost:8080 HEADLESS=1 mvn -B verify -DskipUnitTests=true
+  post_build:
+    commands:
+      - echo "=== Shutting down app ==="
+      - kill $(cat app.pid) || true
+      - echo "=== App log (last 50 lines) ==="
+      - tail -50 app.log || true
+
+reports:
+  e2e-reports:
+    files:
+      - 'target/failsafe-reports/TEST-*.xml'
+    file-format: JUNITXML
