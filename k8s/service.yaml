@@ -1,0 +1,12 @@
+appVersion: v1
+kind: Service
+metadata:
+  name: java.poduct.service
+spec:
+  selector:
+    app: java.poduct.service
+  ports:
+    protocol: TCP
+    port: 80
+    targetPort: 8080
+  type: LoadBalancer
