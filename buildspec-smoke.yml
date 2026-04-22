@@ -1,0 +1,27 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto21
+    commands:
+      - echo "=== Installing Playwright browsers ==="
+      - mvn -B dependency:build-classpath -Dmdep.outputFile=cp.txt -q
+      - java -cp "$(cat cp.txt)" com.microsoft.playwright.CLI install --with-deps chromium
+  pre_build:
+    commands:
+      - test -n "$WEBSITE_URL" || { echo "ERROR WEBSITE_URL not set"; exit 1; }
+      - echo "=== Smoke test target [$WEBSITE_URL] ==="
+      - curl -v "$WEBSITE_URL/" || true
+      - echo "=== Starting wait loop ==="
+      - for i in $(seq 1 30); do curl -sf "$WEBSITE_URL/" > /dev/null 2>&1 && echo "Deploy is reachable" && exit 0; [ $i -eq 30 ] && echo "Deploy not reachable after 150s" && exit 1; echo "Waiting $i/30"; sleep 5; done
+  build:
+    commands:
+      - echo "=== Running smoke tests against live environment ==="
+      - HEADLESS=1 mvn -B verify -Dgroups=smoke -DskipUnitTests=true
+
+reports:
+  smoke-reports:
+    files:
+      - 'target/failsafe-reports/TEST-*.xml'
+    file-format: JUNITXML
