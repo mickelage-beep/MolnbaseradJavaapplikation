@@ -25,7 +25,7 @@ public class PlaywrightTests {
         browser = playwright.chromium().launch(
                 new BrowserType.LaunchOptions()
                         .setHeadless(headLess)
-                        .setSlowMo(headLess ? 0 : 2000)
+//                        .setSlowMo(headLess ? 0 : 2000)
                         .setArgs(List.of("--start-maximized"))
         );
     }
