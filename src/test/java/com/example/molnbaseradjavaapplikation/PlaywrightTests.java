@@ -138,21 +138,24 @@ public class PlaywrightTests {
     // 11. Testing a "flow" by going to github and searches for a user
     @Test
     void goToGitHubAndSearchForAUser() {
-        page.navigate("https://github.com");
+//        page.navigate("https://github.com");
+//
+//        page.getByRole(AriaRole.BUTTON,
+//                new Page.GetByRoleOptions().setName("Search or jump to…")).first().click();
+//
+//        Locator searchInput = page.locator("#query-builder-test");
+//        searchInput.fill("user:mickelage-beep");
+//        searchInput.press("Enter");
+//
+//        page.getByRole(AriaRole.LINK,
+//                new Page.GetByRoleOptions().setName("Repositories")).click();
+//
+//        Locator searchRepoInput = page.locator("#your-repos-filter");
+//        searchRepoInput.fill("html-basics");
+//        searchRepoInput.press("Enter");
 
-        page.getByRole(AriaRole.BUTTON,
-                new Page.GetByRoleOptions().setName("Search or jump to…")).first().click();
-
-        Locator searchInput = page.locator("#query-builder-test");
-        searchInput.fill("user:mickelage-beep");
-        searchInput.press("Enter");
-
-        page.getByRole(AriaRole.LINK,
-                new Page.GetByRoleOptions().setName("Repositories")).click();
-
-        Locator searchRepoInput = page.locator("#your-repos-filter");
-        searchRepoInput.fill("html-basics");
-        searchRepoInput.press("Enter");
+        //Testar och hoppa direkt till repot eftersom jag får timeout i aws på github sidan.
+        page.navigate("https://github.com/search?q=user%3Amickelage-beep&type=repositories");
 
 
         Locator repoResult = page.getByRole(AriaRole.LINK,
