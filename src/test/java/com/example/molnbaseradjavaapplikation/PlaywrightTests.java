@@ -21,8 +21,7 @@ public class PlaywrightTests {
     @BeforeAll
     static void launchBrowser() {
         playwright = Playwright.create();
-        boolean headLess = !"false".equalsIgnoreCase(System.getenv("HEADLESS")); // Testar
-        //boolean headLess = System.getenv("HEADLESS") != null;
+        boolean headLess = System.getenv("HEADLESS") != null;
         browser = playwright.chromium().launch(
                 new BrowserType.LaunchOptions()
                         .setHeadless(headLess)
