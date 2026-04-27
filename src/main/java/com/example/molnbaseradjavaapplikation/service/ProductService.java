@@ -22,8 +22,8 @@ public class ProductService {
     }
 
     public List<Product> fetchAndSaveProducts() {
-        String url = "https://dummyjson.com/products";
-        //String url ="https://fakestoreapi.com/products";
+        //String url = "https://dummyjson.com/products";
+        String url ="https://fakestoreapi.com/products";
 
         DummyJsonProductResponse response = restTemplate.getForObject(url, DummyJsonProductResponse.class);
 
