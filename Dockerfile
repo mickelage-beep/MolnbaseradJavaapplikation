@@ -1,5 +1,14 @@
-FROM eclipse-temurin:17-jdk-slim
+# Build stage
+FROM maven:3.9-amazoncorretto-21 AS build
 WORKDIR /app
-COPY . .
-RUN ./mvnw clean package -DskipTests
-ENTRYPOINT ["java","-jar","target/*.jar"]
+COPY pom.xml .
+RUN mvn -B dependency:go-offline
+COPY src ./src
+RUN mvn -B clean package -DskipTests
+
+# Runtime stage
+FROM amazoncorretto:21-alpine
+WORKDIR /app
+COPY --from=build /app/target/*.jar application.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "application.jar"]
