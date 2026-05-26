@@ -1,7 +1,6 @@
 package com.example.molnbaseradjavaapplikation.service;
 
-
-import com.example.molnbaseradjavaapplikation.dto.DummyJsonProductResponse;
+import com.example.molnbaseradjavaapplikation.dto.ProductDTO;
 import com.example.molnbaseradjavaapplikation.model.Product;
 import com.example.molnbaseradjavaapplikation.repository.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -22,23 +21,38 @@ public class ProductService {
     }
 
     public List<Product> fetchAndSaveProducts() {
-        //String url = "https://dummyjson.com/products";
-        String url ="https://fakestoreapi.com/products";
+        String url = "https://fakestoreapi.com/products";
 
-        DummyJsonProductResponse response = restTemplate.getForObject(url, DummyJsonProductResponse.class);
+        ProductDTO[] response = restTemplate.getForObject(url, ProductDTO[].class);
 
-        if(response == null){
+        if (response == null) {
             System.out.println("API returned null");
             return productRepository.findAll();
         }
 
-        //List<Product> products = Arrays.asList(response);
-        productRepository.saveAll(response.getProducts());
+        List<Product> products = Arrays.stream(response)
+                .map(this::mapToProduct)
+                .toList();
+
+        productRepository.saveAll(products);
 
         return productRepository.findAll();
     }
 
     public List<Product> getAllProducts() {
         return productRepository.findAll();
+    }
+
+    private Product mapToProduct(ProductDTO dto) {
+        Product product = new Product();
+
+        product.setId(dto.getId());
+        product.setTitle(dto.getTitle());
+        product.setPrice(Double.valueOf(dto.getPrice()));
+        product.setDescription(dto.getDescription());
+        product.setCategory(dto.getCategory());
+        product.setImage(dto.getImage());
+
+        return product;
     }
 }

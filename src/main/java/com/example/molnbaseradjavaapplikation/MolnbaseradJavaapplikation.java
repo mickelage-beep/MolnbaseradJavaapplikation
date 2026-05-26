@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AwsCiCdApplication {
+public class MolnbaseradJavaapplikation {
 
     public static void main(String[] args) {
-        SpringApplication.run(AwsCiCdApplication.class, args);
+        SpringApplication.run(MolnbaseradJavaapplikation.class, args);
     }
 
 }
