@@ -20,8 +20,9 @@ public class AuthService {
     }
 
     public AuthResponse register(RegisterRequest request) {
+
         if (userRepository.existsByUsername(request.getUsername())) {
-            throw new RuntimeException("Username already exists");
+            return new AuthResponse("Username already exists", null);
         }
 
         Users user = new Users(
@@ -35,16 +36,16 @@ public class AuthService {
     }
 
     public AuthResponse login(LoginRequest request) {
+
         Users user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new RuntimeException("Invalid username or password"));
+                .orElse(null);
 
-        boolean passwordMatches = passwordEncoder.matches(
-                request.getPassword(),
-                user.getPassword()
-        );
+        if (user == null) {
+            return new AuthResponse("Invalid username or password", null);
+        }
 
-        if (!passwordMatches) {
-            throw new RuntimeException("Invalid username or password");
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            return new AuthResponse("Invalid username or password", null);
         }
 
         return new AuthResponse("Login successful", user.getUsername());
