@@ -21,7 +21,8 @@ public class ProductService {
     }
 
     public List<Product> fetchAndSaveProducts() {
-        String url = "https://fakestoreapi.com/products";
+        String url = "http://yahyatesting-env.eba-sarnymwd.eu-north-1.elasticbeanstalk.com/products";
+                //"https://fakestoreapi.com/products";
 
         ProductDTO[] response = restTemplate.getForObject(url, ProductDTO[].class);
 
