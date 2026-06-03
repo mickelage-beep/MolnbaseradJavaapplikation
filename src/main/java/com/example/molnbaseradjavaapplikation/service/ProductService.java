@@ -35,9 +35,7 @@ public class ProductService {
                 .map(this::mapToProduct)
                 .toList();
 
-        productRepository.saveAll(products);
-
-        return productRepository.findAll();
+        return productRepository.saveAll(products);
     }
 
     public List<Product> getAllProducts() {
