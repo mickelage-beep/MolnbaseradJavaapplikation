@@ -5,6 +5,7 @@ import com.example.molnbaseradjavaapplikation.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -19,10 +20,16 @@ public class ProductController {
 
     @GetMapping("/products")
     public String showProducts(Model model) {
-        List<Product> products = productService.fetchAndSaveProducts();
+        List<Product> products = productService.getAllProducts();
 
         model.addAttribute("products", products);
 
         return "products";
+    }
+
+    @PostMapping("/products/fetch")
+    public String fetchAndSaveProducts() {
+        productService.fetchAndSaveProducts();
+        return "redirect:/products";
     }
 }
