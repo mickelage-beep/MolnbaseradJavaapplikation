@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -25,6 +26,12 @@ public class ProductController {
         model.addAttribute("products", products);
 
         return "products";
+    }
+
+    @GetMapping("/api/products")
+    @ResponseBody
+    public List<Product> getProductsAsJson() {
+        return productService.getAllProducts();
     }
 
     @PostMapping("/products/fetch")

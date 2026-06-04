@@ -1,0 +1,195 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f9;
+    margin: 0;
+    padding: 0;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+    background: #2f3640;
+    color: white;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar h1 {
+    font-size: 20px;
+    margin: 0;
+}
+
+.navbar nav {
+    display: flex;
+    gap: 10px;
+}
+
+.navbar button {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.navbar button:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.navbar .logout {
+    border: 1px solid #e74c3c;
+}
+
+.navbar .logout:hover {
+    background: #e74c3c;
+}
+
+/* =========================
+   VIEW SYSTEM
+========================= */
+
+.view {
+    display: none;
+}
+
+.view.active {
+    display: block;
+}
+
+/* =========================
+   CURRENT USER TEXT
+========================= */
+
+#currentUser {
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* =========================
+   PRODUCTS GRID
+========================= */
+
+#productsSection {
+    padding: 20px;
+}
+
+#products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 22px;
+    margin-top: 20px;
+    padding: 0 20px;
+}
+
+/* PRODUCT CARD */
+.product {
+    background: white;
+    border-radius: 14px;
+    padding: 15px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    transition: all 0.25s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.product:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+.product img {
+    width: 100%;
+    height: 180px;
+    object-fit: contain;
+    border-radius: 10px;
+    background: #f9fafb;
+    padding: 10px;
+}
+
+.product h3 {
+    font-size: 15px;
+    margin: 12px 0 6px;
+    color: #111827;
+}
+
+.product p {
+    font-size: 14px;
+    color: #555;
+}
+
+.product button {
+    margin-top: auto;
+    padding: 10px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.product button:hover {
+    background: #1d4ed8;
+}
+
+/* ===== ORDERS SECTION ===== */
+
+#ordersSection {
+    padding: 20px;
+}
+
+#orders {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+/* själva order-kortet */
+.message {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-left: 5px solid #2563eb;
+    transition: 0.2s;
+}
+
+/* hover effekt */
+.message:hover {
+    transform: translateY(-2px);
+}
+
+/* order-text */
+.message p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #1f2937;
+}
+
+/* order-id styling */
+.message p strong {
+    color: #111827;
+}
+
+/* produkter i ordern */
+.message br {
+    line-height: 1.6;
+}
+
+/* om du vill highlighta totalpris */
+.message p:nth-child(3) {
+    font-weight: bold;
+    color: #16a34a;
+}

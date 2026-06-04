@@ -4,6 +4,7 @@ import com.example.molnbaseradjavaapplikation.dto.AuthResponse;
 import com.example.molnbaseradjavaapplikation.dto.LoginRequest;
 import com.example.molnbaseradjavaapplikation.dto.RegisterRequest;
 import com.example.molnbaseradjavaapplikation.service.AuthService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,7 +23,14 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody LoginRequest request) {
-        return authService.login(request);
+    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
+
+        AuthResponse response = authService.login(request);
+
+        if (response.getUsername() == null) {
+            return ResponseEntity.status(401).body(response);
+        }
+
+        return ResponseEntity.ok(response);
     }
 }

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playwright Practice Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F3F0FF;
+            color: #3E206D;
+            padding: 3rem;
+        }
+
+        h1 {
+            text-align: center;
+            color: #8250DF;
+            margin-bottom: 1rem;
+        }
+
+        .exercise-list {
+            background-color: #EDE7F6;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .container {
+            background-color: #D1C4E9;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #8250DF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #6A3FCC;
+        }
+
+        input, select, textarea {
+            padding: 5px 8px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            border: 1px solid #8250DF;
+            border-radius: 4px;
+            width: 100%;
+            max-width: 250px;
+        }
+
+        input[type="checkbox"], input[type="radio"] {
+            width: auto;
+            margin-right: 5px;
+        }
+
+        a {
+            color: #6A3FCC;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        img {
+            border: 2px solid #8250DF;
+            border-radius: 8px;
+            max-width: 120px;
+        }
+
+        .grid {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background-color: #B39DDB;
+            padding: 15px;
+            border-radius: 6px;
+            flex: 1 1 200px;
+        }
+
+        .outer-div {
+            background-color: #9575CD;
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        .inner-div {
+            background-color: #7E57C2;
+            padding: 8px;
+            border-radius: 4px;
+            text-align: center;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<h1 id="page-title">Playwright Test Page</h1>
+
+<div class="exercise-list">
+    <h2>Exercises for Playwright Practice</h2>
+    <ol>
+        <li>Grab the heading with ID <code>page-title</code> and print its text.</li>
+        <li>Fill the input with placeholder <code>Email</code> with a test email.</li>
+        <li>Click the button inside the card with class <code>btn-green</code>.</li>
+        <li>Select the checkbox labeled <code>Accept Terms</code>.</li>
+        <li>Choose the radio button for <code>Option B</code> from the group.</li>
+        <li>Pick "Green" from the dropdown with ID <code>color-select</code>.</li>
+        <li>Get the text of all list items with class <code>feature</code>.</li>
+        <li>Print the <code>alt</code> attribute of the image with ID <code>logo</code>.</li>
+        <li>Click the link with text <code>Learn more</code> without navigating away.</li>
+        <li>Retrieve text from the nested span inside <code>.outer-div .inner-div</code>.</li>
+    </ol>
+</div>
+
+<div class="container grid">
+    <div class="card">
+        <label>Email: <input type="text" placeholder="Email" name="email"></label>
+        <button class="btn-green">Click Me</button>
+    </div>
+    <div class="card">
+        <label><input type="checkbox" name="terms"> Accept Terms</label>
+        <div>
+            <label><input type="radio" name="options" value="A"> Option A</label>
+            <label><input type="radio" name="options" value="B"> Option B</label>
+        </div>
+    </div>
+    <div class="card">
+        <label>Pick a color:
+            <select id="color-select">
+                <option value="">Select</option>
+                <option value="red">Red</option>
+                <option value="green" selected>Green</option>
+                <option value="blue">Blue</option>
+            </select>
+        </label>
+    </div>
+</div>
+
+<div class="container">
+    <ul>
+        <li class="feature">Fast performance</li>
+        <li class="feature">Cross-browser support</li>
+        <li class="feature">Auto-wait functionality</li>
+    </ul>
+</div>
+
+<div class="container grid">
+    <div class="card">
+        <img src="https://miro.medium.com/v2/1*gMiUPuRGC36nxZHe2zthOg.png" alt="Playwright Logo" id="logo">
+    </div>
+    <div class="card">
+        <a href="#" id="learn-link">Learn more</a>
+    </div>
+</div>
+
+<div class="container outer-div">
+    <div class="inner-div">
+        <span id="nested-span">Nested Text</span>
+    </div>
+</div>
+</body>
+</html>

@@ -5,6 +5,8 @@ import com.example.molnbaseradjavaapplikation.dto.OrderResponse;
 import com.example.molnbaseradjavaapplikation.service.OrderService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/orders")
 public class OrderController {
@@ -18,5 +20,9 @@ public class OrderController {
     @PostMapping
     public OrderResponse createOrder(@RequestBody CreateOrderRequest request) {
         return orderService.createOrder(request);
+    }
+    @GetMapping
+    public List<OrderResponse> getOrdersByUsername(@RequestParam String username) {
+        return orderService.getOrdersByUsername(username);
     }
 }

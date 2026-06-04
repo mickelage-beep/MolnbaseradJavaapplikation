@@ -2,6 +2,7 @@ package com.example.molnbaseradjavaapplikation.service;
 
 import com.example.molnbaseradjavaapplikation.dto.CreateOrderRequest;
 import com.example.molnbaseradjavaapplikation.dto.OrderItemRequest;
+import com.example.molnbaseradjavaapplikation.dto.OrderItemResponse;
 import com.example.molnbaseradjavaapplikation.dto.OrderResponse;
 import com.example.molnbaseradjavaapplikation.model.Order;
 import com.example.molnbaseradjavaapplikation.model.OrderItem;
@@ -13,6 +14,7 @@ import com.example.molnbaseradjavaapplikation.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class OrderService {
@@ -74,7 +76,39 @@ public class OrderService {
                 savedOrder.getUser().getUsername(),
                 savedOrder.getTotalPrice(),
                 savedOrder.getCreatedAt(),
+                savedOrder.getItems().stream()
+                        .map(i -> new OrderItemResponse(
+                                i.getProduct().getTitle(),
+                                i.getProduct().getImage(),
+                                i.getQuantity(),
+                                i.getPriceAtPurchase()
+                        ))
+                        .toList(),
                 "Order created successfully"
         );
+    }
+    public List<OrderResponse> getOrdersByUsername(String username) {
+        Users user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        List<Order> orders = orderRepository.findByUser(user);
+
+        return orders.stream()
+                .map(order -> new OrderResponse(
+                        order.getId(),
+                        order.getUser().getUsername(),
+                        order.getTotalPrice(),
+                        order.getCreatedAt(),
+                        order.getItems().stream()
+                                .map(i -> new OrderItemResponse(
+                                        i.getProduct().getTitle(),
+                                        i.getProduct().getImage(),
+                                        i.getQuantity(),
+                                        i.getPriceAtPurchase()
+                                ))
+                                .toList(),
+                        "Order found"
+                ))
+                .toList();
     }
 }
