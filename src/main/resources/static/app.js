@@ -1,4 +1,7 @@
-const API_BASE_URL = "http://localhost:5000";
+const API_BASE_URL =
+    location.hostname === "localhost"
+        ? "http://localhost:5000"
+        : "http://newenviroment-env.eba-c5pzacqa.eu-north-1.elasticbeanstalk.com";
 
 let loggedInUser = localStorage.getItem("cloudstore_user");
 
