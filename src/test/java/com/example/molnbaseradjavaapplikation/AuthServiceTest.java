@@ -49,6 +49,7 @@ public class AuthServiceTest {
                 users.getUsername().equals("Micke") &&
                 users.getPassword().equals("hashedPassword")));
     }
+    //Test
 
     @Test
     public void TestRegisterFail(){
