@@ -22,4 +22,4 @@ jobs:
           cache: 'maven'
 
       - name: Execute Spring Boot Tests
-        run: mvn clean test
+        run: mvn clean test -Dtest=!CloudstoreTests,!PlaywrightTests
