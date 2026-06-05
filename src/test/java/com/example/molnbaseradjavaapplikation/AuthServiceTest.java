@@ -2,7 +2,9 @@ package com.example.molnbaseradjavaapplikation;
 
 
 import com.example.molnbaseradjavaapplikation.dto.AuthResponse;
+import com.example.molnbaseradjavaapplikation.dto.LoginRequest;
 import com.example.molnbaseradjavaapplikation.dto.RegisterRequest;
+import com.example.molnbaseradjavaapplikation.model.Users;
 import com.example.molnbaseradjavaapplikation.repository.UserRepository;
 import com.example.molnbaseradjavaapplikation.service.AuthService;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -53,22 +58,77 @@ public class AuthServiceTest {
 
     @Test
     public void TestRegisterFail(){
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setUsername("Micke");
+        registerRequest.setPassword("password");
+
+        Mockito.when(userRepository.existsByUsername("Micke"))
+                .thenReturn(true);
+
+        AuthResponse authResponse = authService.register(registerRequest);
+
+        assertEquals("Username already exists", authResponse.getMessage());
+
+        Mockito.verify(userRepository, Mockito.never()).save(Mockito.any());
 
 
     }
 
     @Test
     public void testLogin() {
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("Micke");
+        loginRequest.setPassword("password");
+
+        Users user = new Users("Micke", "hashedPassword");
+
+        Mockito.when(userRepository.findByUsername("Micke"))
+                .thenReturn(Optional.of(user));
+
+        Mockito.when(passwordEncoder.matches("password", "hashedPassword"))
+                .thenReturn(true);
+
+        AuthResponse authResponse = authService.login(loginRequest);
+
+        assertEquals("Login successful", authResponse.getMessage());
+        assertEquals("Micke", authResponse.getUsername());
 
     }
 
     @Test
-    public void testLoginFail() {
+    public void testLoginFailUsername() {
+        LoginRequest request = new LoginRequest();
+        request.setUsername("Micke");
+        request.setPassword("password");
+
+        Mockito.when(userRepository.findByUsername("Micke"))
+                .thenReturn(Optional.empty());
+
+        AuthResponse response = authService.login(request);
+
+        assertEquals("Invalid username or password", response.getMessage());
+        assertNull(response.getUsername());
 
     }
 
     @Test
-    public void testLogout() {
+    public void testLoginFailPassword() {
+
+        LoginRequest request = new LoginRequest();
+        request.setUsername("Micke");
+        request.setPassword("password");
+
+        Users user = new Users("Micke", "hashedPassword");
+
+        Mockito.when(userRepository.findByUsername("Micke"))
+                .thenReturn(Optional.of(user));
+
+        Mockito.when(passwordEncoder.matches("password", "hashedPassword"))
+                .thenReturn(false);
+
+        AuthResponse authResponse = authService.login(request);
+
+        assertEquals("Invalid username or password", authResponse.getMessage());
     }
 
 
